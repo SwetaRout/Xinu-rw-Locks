@@ -1,0 +1,21 @@
+1. The priority inversion problem could cause that a higher-priority process 
+   needs to wait for the completion of a lower-priority process.
+   1 Priority inheritance is one approach to address this issue. Please give 
+       another approach and briefly describe its idea.
+       
+Ans : Another approach of solving priority inversion problem is priority ceiling.In this approach,each resource is assigned a higher priority and whenver a process requests the resource, the resource is granted to
+      the process,if it is available and its priority is set to the priority of the resource and thereby assigning the highest priority to that resource.
+	   //Reference : Reference: http://en.wikipedia.org/wiki/Priority_ceiling_protocol
+	2.Design a test case to show that your approach can address the priority inversion problem. You should compare the results that derived from the original XINU implementation (use semaphore) and that derived from your implementation (use readers/writer locks). Put your results in Lab2Answers.txt and your test case program (name it task1.c) in both ./sys and ./TMP
+	
+	My approach is as follows :
+	Semaphores : 
+    procA acquires the resource and procC waits until procB (prio 25) finishes, so that procA can continue. 
+    When procA finishes, it releases the resource post and procC starts running. procC waits for extra time.
+	Locks :
+	procA priority is set to procC ->procA runs before procBand releases resource. procC uses this and finishes. procC doesent have to wait.
+	
+2. Global_buf can be modified due to interleaving
+Example : If there are two threads and both have acquired 2 read locks. T1 runs and T2 runs before updation of global_buf in T1. T2 does its task and after that T1 updates global buf
+
+Solution : updation and writing to resources should be eclusive and thread safe.
